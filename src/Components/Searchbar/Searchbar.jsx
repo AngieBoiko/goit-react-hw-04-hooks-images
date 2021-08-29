@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
+import { toast } from 'react-toastify';
 
 class Searchbar extends Component {
   state = {
     value: '',
   };
   handlerInput = e => {
-    this.setState({ value: e.currentTarget.value });
+    this.setState({ value: e.currentTarget.value.toLowerCase() });
   };
   handlerSubmit = e => {
     e.preventDefault();
+    if (this.state.value.trim() === '') {
+      return toast.error('Please, enter search query!');
+    }
     this.props.onSubmit(this.state.value);
   };
   render() {
@@ -23,8 +27,8 @@ class Searchbar extends Component {
             onChange={this.handlerInput}
             className="SearchForm-input"
             type="text"
-            autocomplete="off"
-            autofocus
+            autoComplete="off"
+            autoFocus
             placeholder="Search images and photos"
           />
         </form>
