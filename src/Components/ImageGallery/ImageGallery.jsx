@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ImageGalleryItem from '../ImageGalleryItem';
 import Button from '../Button';
+import Modal from '../Modal/Modal';
 import PixabayFetchImages from '../../services/PixabayApi';
 import { toast } from 'react-toastify';
 import Loader from 'react-loader-spinner';
@@ -13,6 +14,7 @@ class ImageGallery extends Component {
     images: [],
     error: null,
     isLoading: null,
+    openModal: false,
   };
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.searchQuery !== this.props.searchQuery) {
@@ -63,7 +65,20 @@ class ImageGallery extends Component {
       behavior: 'smooth',
     });
   }
-
+  onGalleryItemClick = e => {
+    this.setState({
+      openModal: true,
+      imageForModal: {
+        src: e.target.dataset.modal,
+        alt: e.target.alt,
+      },
+    });
+  };
+  toggleModal = () => {
+    this.setState(({ openModal }) => ({
+      openModal: !openModal,
+    }));
+  };
   render() {
     return (
       <>
@@ -76,19 +91,26 @@ class ImageGallery extends Component {
             timeout={3000} //3 secs
           />
         )}
-        <ul className="ImageGallery">
+        <ul className="ImageGallery" onClick={this.onGalleryItemClick}>
           {this.state.images.map(item => {
             return (
               <ImageGalleryItem
                 key={item.id}
                 src={item.webformatURL}
                 alt={item.tags}
+                modalSrc={item.largeImageURL}
               />
             );
           })}
         </ul>
         {this.state.images.length > 0 && (
           <Button onClick={this.onClickHandler} />
+        )}
+        {this.state.openModal && (
+          <Modal
+            forImageModal={this.state.imageForModal}
+            onCloseModal={this.toggleModal}
+          />
         )}
       </>
     );
