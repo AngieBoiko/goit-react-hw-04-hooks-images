@@ -18,7 +18,7 @@ class App extends Component {
     return (
       <>
         <Searchbar onSubmit={this.onSubmitHandler} />
-        <ImageGallery value={this.state.value} />
+        <ImageGallery searchQuery={this.state.value} />
         <ToastContainer />
         <Loader
           type="Puff"

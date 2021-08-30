@@ -8,14 +8,17 @@ class ImageGallery extends Component {
     page: 1,
     per_page: 12,
     images: [],
+    error: null,
   };
   componentDidUpdate(prevState, prevProps) {
-    const nextValue = this.props.value;
-    const prevValue = prevProps.value;
-    if (prevValue !== nextValue) {
-      PixabayFetchImages(nextValue, this.state.page, this.state.per_page)
-        .then(response => this.setState({ images: [...response.hits] }))
-        .catch(error => toast.error('This request is not successful'));
+    if (prevProps.searchQuery !== this.props.searchQuery) {
+      PixabayFetchImages(
+        this.props.searchQuery,
+        this.state.page,
+        this.state.per_page,
+      )
+        .then(response => this.setState({ images: response.hits }))
+        .catch(error => this.setState({ error }));
     }
   }
   render() {
