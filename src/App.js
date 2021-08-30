@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Searchbar from './Components/Searchbar';
 import ImageGallery from './Components/ImageGallery';
+
 import { ToastContainer } from 'react-toastify';
 import Loader from 'react-loader-spinner';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,11 +15,13 @@ class App extends Component {
   onSubmitHandler = data => {
     this.setState({ value: data });
   };
+
   render() {
     return (
       <>
         <Searchbar onSubmit={this.onSubmitHandler} />
         <ImageGallery searchQuery={this.state.value} />
+
         <ToastContainer />
         <Loader
           type="Puff"
