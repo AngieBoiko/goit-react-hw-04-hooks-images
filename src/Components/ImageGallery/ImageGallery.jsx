@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import ImageGalleryItem from '../ImageGalleryItem';
 import Button from '../Button';
 import Modal from '../Modal/Modal';
+import Loader from '../Loader';
 import PixabayFetchImages from '../../services/PixabayApi';
 import { toast } from 'react-toastify';
-import Loader from 'react-loader-spinner';
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 class ImageGallery extends Component {
   state = {
@@ -31,7 +30,7 @@ class ImageGallery extends Component {
           } else toast.error('Enter another word for searching!');
         })
         .catch(error => this.setState({ error }))
-        .finally(this.setState({ isLoading: false }));
+        .finally(() => this.setState({ isLoading: false }));
     }
 
     if (prevState.page !== this.state.page) {
@@ -49,7 +48,7 @@ class ImageGallery extends Component {
           } else toast.error('Enter another word for searching!');
         })
         .catch(error => this.setState({ error }))
-        .finally(this.setState({ isLoading: false }));
+        .finally(() => this.setState({ isLoading: false }));
     }
     this.onScroll();
   }
@@ -83,15 +82,7 @@ class ImageGallery extends Component {
   render() {
     return (
       <div className="gallery-container">
-        {this.state.isLoading && (
-          <Loader
-            type="Puff"
-            color="#00BFFF"
-            height={100}
-            width={100}
-            timeout={3000} //3 secs
-          />
-        )}
+        {this.state.isLoading && <Loader />}
         <ul className="ImageGallery" onClick={this.onGalleryItemClick}>
           {this.state.images.map(item => {
             return (
