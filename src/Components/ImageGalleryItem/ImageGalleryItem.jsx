@@ -1,17 +1,21 @@
-import { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-class ImageGalleryItem extends Component {
-  render() {
-    return (
-      <li className="ImageGalleryItem">
-        <img
-          src={this.props.src}
-          alt={this.props.alt}
-          data-modal={this.props.modalSrc}
-          className="ImageGalleryItem-image"
-        />
-      </li>
-    );
-  }
+function ImageGalleryItem({ src, alt, modalSrc }) {
+  return (
+    <li className="ImageGalleryItem">
+      <img
+        src={src}
+        alt={alt}
+        data-modal={modalSrc}
+        className="ImageGalleryItem-image"
+      />
+    </li>
+  );
 }
+ImageGalleryItem.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  modalSrc: PropTypes.string.isRequired,
+};
 export default ImageGalleryItem;
