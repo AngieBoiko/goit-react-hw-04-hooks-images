@@ -81,7 +81,7 @@ class ImageGallery extends Component {
   };
   render() {
     return (
-      <>
+      <div className="gallery-container">
         {this.state.isLoading && (
           <Loader
             type="Puff"
@@ -112,7 +112,7 @@ class ImageGallery extends Component {
             onCloseModal={this.toggleModal}
           />
         )}
-      </>
+      </div>
     );
   }
 }
