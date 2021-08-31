@@ -16,10 +16,11 @@ class App extends Component {
   };
 
   render() {
+    const { value } = this.state;
     return (
       <>
         <Searchbar onSubmit={this.onSubmitHandler} />
-        <ImageGallery searchQuery={this.state.value} />
+        <ImageGallery searchQuery={value} />
 
         <ToastContainer />
       </>

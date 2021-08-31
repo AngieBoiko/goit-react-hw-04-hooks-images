@@ -22,13 +22,11 @@ class Modal extends Component {
   };
 
   render() {
+    const { forImageModal } = this.props;
     return createPortal(
       <div className="Overlay" onClick={this.handleOnClickBackdrop}>
         <div className="Modal">
-          <img
-            src={this.props.forImageModal.src}
-            alt={this.props.forImageModal.alt}
-          />
+          <img src={forImageModal.src} alt={forImageModal.alt} />
         </div>
       </div>,
       modalRoot,

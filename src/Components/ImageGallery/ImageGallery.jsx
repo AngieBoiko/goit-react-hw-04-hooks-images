@@ -17,13 +17,11 @@ class ImageGallery extends Component {
     openModal: false,
   };
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.searchQuery !== this.props.searchQuery) {
+    const { page, per_page } = this.state;
+    const { searchQuery } = this.props;
+    if (prevProps.searchQuery !== searchQuery) {
       this.setState({ page: 1, isLoading: true });
-      PixabayFetchImages(
-        this.props.searchQuery,
-        this.state.page,
-        this.state.per_page,
-      )
+      PixabayFetchImages(searchQuery, page, per_page)
         .then(response => {
           if (response.hits.length > 0) {
             this.setState({ images: response.hits });
@@ -33,13 +31,9 @@ class ImageGallery extends Component {
         .finally(() => this.setState({ isLoading: false }));
     }
 
-    if (prevState.page !== this.state.page) {
+    if (prevState.page !== page) {
       this.setState({ isLoading: true });
-      PixabayFetchImages(
-        this.props.searchQuery,
-        this.state.page,
-        this.state.per_page,
-      )
+      PixabayFetchImages(searchQuery, page, per_page)
         .then(response => {
           if (response.hits.length > 0) {
             this.setState(prevState => {
@@ -80,11 +74,12 @@ class ImageGallery extends Component {
     }));
   };
   render() {
+    const { isLoading, images, imageForModal } = this.state;
     return (
       <div className="gallery-container">
-        {this.state.isLoading && <Loader />}
+        {isLoading && <Loader />}
         <ul className="ImageGallery" onClick={this.onGalleryItemClick}>
-          {this.state.images.map(item => {
+          {images.map(item => {
             return (
               <ImageGalleryItem
                 key={item.id}
@@ -100,7 +95,7 @@ class ImageGallery extends Component {
         )}
         {this.state.openModal && (
           <Modal
-            forImageModal={this.state.imageForModal}
+            forImageModal={imageForModal}
             onCloseModal={this.toggleModal}
           />
         )}
