@@ -74,11 +74,12 @@ class ImageGallery extends Component {
     }));
   };
   render() {
-    const { isLoading, images, imageForModal } = this.state;
+    const { isLoading, images, imageForModal, openModal } = this.state;
+    const { onGalleryItemClick, onClickHandler, toggleModal } = this;
     return (
       <div className="gallery-container">
         {isLoading && <Loader />}
-        <ul className="ImageGallery" onClick={this.onGalleryItemClick}>
+        <ul className="ImageGallery" onClick={onGalleryItemClick}>
           {images.map(item => {
             return (
               <ImageGalleryItem
@@ -90,14 +91,9 @@ class ImageGallery extends Component {
             );
           })}
         </ul>
-        {this.state.images.length > 0 && (
-          <Button onClick={this.onClickHandler} />
-        )}
-        {this.state.openModal && (
-          <Modal
-            forImageModal={imageForModal}
-            onCloseModal={this.toggleModal}
-          />
+        {images.length > 0 && <Button onClick={onClickHandler} />}
+        {openModal && (
+          <Modal forImageModal={imageForModal} onCloseModal={toggleModal} />
         )}
       </div>
     );
