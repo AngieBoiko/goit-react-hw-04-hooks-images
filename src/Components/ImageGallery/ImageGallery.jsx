@@ -4,11 +4,10 @@ import ImageGalleryItem from '../ImageGalleryItem';
 import Button from '../Button';
 import Modal from '../Modal/Modal';
 import Loader from '../Loader';
-import usePrevious from '../../Hooks/usePrevious';
 import PixabayFetchImages from '../../services/PixabayApi';
 import { toast } from 'react-toastify';
 
-export default function ImageGallery(searchQuery) {
+export default function ImageGallery({ searchQuery }) {
   const [page, setPage] = useState(1);
   const [per_page, setPer_page] = useState(12);
   const [images, setImages] = useState([]);
@@ -17,38 +16,21 @@ export default function ImageGallery(searchQuery) {
   const [openModal, setOpenModal] = useState(false);
   const [imageForModal, setImageForModal] = useState({});
 
-  const prevPropsSearchQuery = usePrevious(searchQuery);
-  const prevPage = usePrevious(page);
-
   useEffect(() => {
-    if (prevPropsSearchQuery !== searchQuery) {
-      setPage(1);
+    if (searchQuery !== '') {
       setIsLoading(true);
       PixabayFetchImages(searchQuery, page, per_page)
         .then(response => {
           if (response.hits.length > 0) {
-            setImages([...response.hits]);
+            setImages(state => [...state, ...response.hits]);
           } else toast.error('Enter another word for searching!');
         })
         .catch(error => setError({ error }))
         .finally(() => setIsLoading(false));
-    }
 
-    // if (prevPage !== page) {
-    //   setIsLoading(true);
-    //   PixabayFetchImages(searchQuery, page, per_page)
-    //     .then(response => {
-    //       if (response.hits.length > 0) {
-    //         setImages(state => {
-    //           state.push(response.hits);
-    //         });
-    //       } else toast.error('Enter another word for searching!');
-    //     })
-    //     .catch(error => setError({ error }))
-    //     .finally(() => setIsLoading(false));
-    // }
-    onScroll();
-  }, [page, per_page, prevPage, prevPropsSearchQuery, searchQuery]);
+      onScroll();
+    }
+  }, [page, searchQuery]);
 
   const onClickHandler = e => {
     setPage(state => state + 1);
