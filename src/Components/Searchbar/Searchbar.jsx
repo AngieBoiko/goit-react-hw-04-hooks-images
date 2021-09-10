@@ -14,7 +14,8 @@ export default function Searchbar({ onSubmit }) {
       return toast.error('Please, enter search query!');
     }
     onSubmit(value);
-    setValue({ value: '' });
+    e.currentTarget.lastChild.value = '';
+    setValue('');
   };
 
   return (
