@@ -26,9 +26,10 @@ export default function ImageGallery({ searchQuery }) {
           } else toast.error('Enter another word for searching!');
         })
         .catch(error => setError({ error }))
-        .finally(() => setIsLoading(false));
-
-      onScroll();
+        .finally(() => {
+          setIsLoading(false);
+          onScroll();
+        });
     }
   }, [page, searchQuery]);
 
